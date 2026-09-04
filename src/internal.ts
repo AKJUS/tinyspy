@@ -1,5 +1,6 @@
 import { assert, define, defineValue, isPromise, isType } from './utils.js'
 import { SYMBOL_STATE } from './constants.js'
+import type { Disposable } from '../optional-types.js'
 
 interface GetState {
   <A extends any[], R>(spy: SpyInternalImpl<A, R>): SpyInternalImplState<A, R>
@@ -67,7 +68,9 @@ export interface Spy<A extends any[] = any[], R = any>
   nextResult(result: R): this
 }
 
-export interface SpyImpl<A extends any[] = any[], R = any> extends Spy<A, R> {
+export interface SpyImpl<A extends any[] = any[], R = any>
+  extends Spy<A, R>,
+    Disposable {
   getOriginal(): (...args: A) => R
   willCall(cb: (...args: A) => R): this
   restore(): void
